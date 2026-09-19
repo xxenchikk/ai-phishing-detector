@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Phishing Detector</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #0d1117;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      width: 600px;
+      background: #161b22;
+      padding: 35px;
+      border-radius: 15px;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    p {
+      color: #b7c0ca;
+    }
+
+    textarea {
+      width: 100%;
+      height: 150px;
+      box-sizing: border-box;
+      padding: 15px;
+      border-radius: 10px;
+      border: none;
+      font-size: 16px;
+      resize: vertical;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      margin-top: 15px;
+      border: none;
+      border-radius: 10px;
+      background: #238636;
+      color: white;
+      font-size: 17px;
+      cursor: pointer;
+    }
+
+    #result {
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 10px;
+      display: none;
+    }
+
+    .safe {
+      background: #173b25;
+    }
+
+    .danger {
+      background: #4a1c1c;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+  <h1>🛡️ AI Phishing Detector</h1>
+
+  <p>
+    Paste a suspicious email or message below.
+    The detector will analyze common phishing indicators.
+  </p>
+
+  <textarea
+    id="message"
+    placeholder="Example: URGENT! Your account will be blocked. Click this link and enter your password..."
+  ></textarea>
+
+  <button onclick="analyzeMessage()">Analyze Message</button>
+
+  <div id="result"></div>
+</div>
+
+<script>
+function analyzeMessage() {
+  const message = document.getElementById("message").value.toLowerCase();
+  const result = document.getElementById("result");
+
+  const suspiciousWords = [
+    "urgent",
+    "password",
+    "click here",
+    "verify",
+    "account suspended",
+    "bank account",
+    "winner",
+    "prize",
+    "login",
+    "immediately"
+  ];
+
+  let detected = [];
+
+  suspiciousWords.forEach(word => {
+    if (message.includes(word)) {
+      detected.push(word);
+    }
+  });
+
+  result.style.display = "block";
+
+  if (detected.length >= 2) {
+    result.className = "danger";
+    result.innerHTML =
+      "<strong>⚠️ High phishing risk</strong><br><br>" +
+      "Suspicious indicators detected: " +
+      detected.join(", ") +
+      ".<br><br>Do not click unknown links or provide personal information.";
+  } else {
+    result.className = "safe";
+    result.innerHTML =
+      "<strong>✅ Low phishing risk</strong><br><br>" +
+      "Few common phishing indicators were detected. " +
+      "Always verify the sender before opening links.";
+  }
+}
+</script>
+
+</body>
+</html>
